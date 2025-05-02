@@ -6,7 +6,22 @@ function App() {
   const [shortenedUrl, setShortenedUrl] = useState('');
 
   const handleShorten = () => {
-    setShortenedUrl(`short.ly/${btoa(url).slice(0, 6)}`);
+    fetch('http://localhost:8081/shorten', {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ longUrl: url }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+      console.log(data);
+      setShortenedUrl(data.shortUrl || 'Error: No shortened URL returned');
+      })
+      .catch((error) => {
+      console.error('Error:', error);
+      setShortenedUrl('Error: Unable to connect to the server');
+      });
   };
 
   return (
