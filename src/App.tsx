@@ -6,12 +6,13 @@ function App() {
   const [shortenedUrl, setShortenedUrl] = useState('');
 
   const handleShorten = () => {
+    const userId = "rakesh";
     fetch('http://localhost:8081/shorten', {
       method: 'POST',
       headers: {
       'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ longUrl: url }),
+      body: JSON.stringify({ originalUrl: url, userId:userId }),
     })
       .then((response) => response.json())
       .then((data) => {
